@@ -1,11 +1,11 @@
 import { getConnection } from "./../database/database.js";
 
-export const getBooks = async (req, res) => {
+export const getStudent = async (req, res) => {
 	try {
 		const connection = await getConnection();
 		const id=req.params.id;
-		const query = "SELECT * from books";
-		const [rows] = await connection.promise().execute('SELECT * from estudiantesp where id=?',[id]);
+		const query = 'SELECT * from estudiantesp where id=?';
+		const [rows] = await connection.promise().execute(query,[id]);
 		if(rows.length>0){
 			res.json(rows);
 		}
