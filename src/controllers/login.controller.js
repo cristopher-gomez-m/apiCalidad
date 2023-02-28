@@ -3,12 +3,12 @@ import { getConnection } from "./../database/database.js";
 export const getCrendentials = async (req, res) => {
 	try {
         const correo = req.body.cedula;
-        const password = req.body.password;
+        const password = req.body.contra;
 		const connection = await getConnection();
-		const query = `select * from docentesp where cedula = ? and password= ?
+		const query = `select * from docentes where cedula = ? and contra= ?
         union
-        select * from estudiantesp where cedula = ? and password= ?`;
-		const [rows] = await connection.promise().execute(query,[correo,password,correo,password]);
+        select * from estudiantes where cedula = ? and contra= ?`;
+		const [rows] = await connection.execute(query,[correo,password,correo,password]);
         if(rows.length>0){
 			res.json(rows);
 		}

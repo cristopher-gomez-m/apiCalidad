@@ -1,6 +1,8 @@
 import express from "express";
 import router from "./routes/students.routes.js";
 import routerLogin from "./routes/login.routes.js";
+import routerTeacher from "./routes/teacher.routes.js";
+import routerCreatedCourses from "./routes/createdCourses.routes.js";
 const app = express();
 
 //Settings
@@ -11,5 +13,7 @@ app.use(express.json());
 
 app.use(router)
 app.use(routerLogin)
+app.use(routerTeacher)
+app.use(routerCreatedCourses)
 
 export default app;
