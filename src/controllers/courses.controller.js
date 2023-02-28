@@ -22,3 +22,53 @@ export const getCourses = async (req, res) => {
          res.status(500).json({ message: "ocurrio un error"});
     }
 };
+
+
+export const getCoursesByStudentId = async (req, res) => {
+	try {
+		const connection = await getConnection();
+		const {estudiante_id} = req.params;
+		const query = `SELECT cursos.id, cursos.nombre, materias.nombre AS materia
+		FROM cursos
+		JOIN cursos_formados ON cursos.id = cursos_formados.curso_id
+		JOIN horarios_formados ON cursos_formados.id = horarios_formados.curso_formado_id
+		JOIN estudiantes ON horarios_formados.estudiante_id = estudiantes.id
+		JOIN materias ON cursos_formados.materia_id = materias.id
+		WHERE estudiantes.id = ?`;
+		const [rows] = await connection.execute(query,[estudiante_id]);
+        if(rows.length>0){
+			res.json(rows);
+		}
+		else{
+			res.status(404).json({message:"El estudiante no existe"});
+		}
+	} catch (error) {
+        console.log(error);
+         res.status(500).json({ message: "ocurrio un error"});
+		}
+}; 
+
+
+export const getCourseGradingByStudentId = async (req, res) => {
+	try {
+		const connection = await getConnection();
+		const {estudiante_id} = req.params;
+		const query = `SELECT cursos.nombre as curso, materias.nombre AS materia,horarios_formados.promedio,horarios_formados.asistencia
+		FROM cursos
+		JOIN cursos_formados ON cursos.id = cursos_formados.curso_id
+		JOIN horarios_formados ON cursos_formados.id = horarios_formados.curso_formado_id
+		JOIN estudiantes ON horarios_formados.estudiante_id = estudiantes.id
+		JOIN materias ON cursos_formados.materia_id = materias.id
+		WHERE estudiantes.id = ?`;
+		const [rows] = await connection.execute(query,[estudiante_id]);
+        if(rows.length>0){
+			res.json(rows);
+		}
+		else{
+			res.status(404).json({message:"El estudiante no existe"});
+		}
+	} catch (error) {
+        console.log(error);
+         res.status(500).json({ message: "ocurrio un error"});
+		}
+}; 

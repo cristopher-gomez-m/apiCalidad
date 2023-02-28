@@ -21,12 +21,12 @@ export const getStudent = async (req, res) => {
 export const insertStudent=async(req,res)=>{
 	try {
 		const { cedula, nombres, apellidos, 
-			edad, direccion, email, telefono, contra, rol_id, nivel_educativo_id } = req.body;
+			edad, direccion, email, telefono, contra, rol_id, nivel_educativo_id,medio_id } = req.body;
 		const connection = await getConnection();
 		const query = `INSERT INTO estudiantes (cedula, nombres, apellidos, edad, direccion, email, 
-			telefono, contra, rol_id, nivel_educativo_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+			telefono, contra, rol_id, nivel_educativo_id,medio_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`;
 		const [result] = await connection.execute(query, [cedula, nombres, apellidos, edad, 
-			direccion, email, telefono, contra, rol_id, nivel_educativo_id]);
+			direccion, email, telefono, contra, rol_id, nivel_educativo_id,medio_id]);
 		res.json({
 			id: result.insertId,
 			message: "Estudiante creado correctamente"
