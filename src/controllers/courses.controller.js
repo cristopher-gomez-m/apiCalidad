@@ -28,7 +28,7 @@ export const getCoursesByStudentId = async (req, res) => {
 	try {
 		const connection = await getConnection();
 		const {estudiante_id} = req.params;
-		const query = `SELECT cursos.id as curso_id, cursos.nombre, materias.id as materia_id,materias.nombre AS materia
+		const query = `SELECT cursos_formados.id as curso_formado_id,cursos.nombre as curso,materias.nombre AS materia
 		FROM cursos
 		JOIN cursos_formados ON cursos.id = cursos_formados.curso_id
 		JOIN horarios_formados ON cursos_formados.id = horarios_formados.curso_formado_id
@@ -41,6 +41,29 @@ export const getCoursesByStudentId = async (req, res) => {
 		}
 		else{
 			res.status(404).json({message:"El estudiante no existe"});
+		}
+	} catch (error) {
+        console.log(error);
+         res.status(500).json({ message: "ocurrio un error"});
+		}
+}; 
+
+export const getCoursesByTeacherId = async (req, res) => {
+	try {
+		const connection = await getConnection();
+		const {docente_id} = req.params;
+		const query = `SELECT cursos_formados.id as curso_formado_id,cursos.nombre as curso,materias.nombre AS materia
+		FROM cursos
+		JOIN cursos_formados ON cursos.id = cursos_formados.curso_id
+		JOIN docentes ON cursos_formados.docente_id = docentes.id
+		JOIN materias ON cursos_formados.materia_id = materias.id
+		WHERE docentes.id = ?`;
+		const [rows] = await connection.execute(query,[docente_id]);
+        if(rows.length>0){
+			res.json(rows);
+		}
+		else{
+			res.status(404).json({message:"El profesor no existe"});
 		}
 	} catch (error) {
         console.log(error);
