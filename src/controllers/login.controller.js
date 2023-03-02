@@ -5,9 +5,9 @@ export const getCrendentials = async (req, res) => {
         const correo = req.body.cedula;
         const password = req.body.contra;
 		const connection = await getConnection();
-		const query = `select * from docentes where cedula = ? and contra= ?
+		const query = `select id,rol_id from docentes where cedula = ? and contra= ?
         union
-        select * from estudiantes where cedula = ? and contra= ?`;
+        select id,rol_id from estudiantes where cedula = ? and contra= ?`;
 		const [rows] = await connection.execute(query,[correo,password,correo,password]);
         if(rows.length>0){
 			res.json(rows);

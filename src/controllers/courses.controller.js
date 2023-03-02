@@ -28,7 +28,7 @@ export const getCoursesByStudentId = async (req, res) => {
 	try {
 		const connection = await getConnection();
 		const {estudiante_id} = req.params;
-		const query = `SELECT cursos.id, cursos.nombre, materias.nombre AS materia
+		const query = `SELECT cursos.id as curso_id, cursos.nombre, materias.id as materia_id,materias.nombre AS materia
 		FROM cursos
 		JOIN cursos_formados ON cursos.id = cursos_formados.curso_id
 		JOIN horarios_formados ON cursos_formados.id = horarios_formados.curso_formado_id
