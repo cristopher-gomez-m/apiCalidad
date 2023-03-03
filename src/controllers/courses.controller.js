@@ -184,13 +184,13 @@ export const registerInTheCourse = async (req, res) => {
 		const connection = await getConnection();
 		const { estudiante_id,curso_formado_id } = req.body;
 		const cupos = await getCuposById(curso_formado_id);
-		if(cupos>=40){
+		if(cupos<=0){
 			res.status(409).json({message: "El curso ya no tiene cupos disponibles"})
 		}
 		else{
 			const query = `INSERT INTO horarios_formados (estudiante_id,curso_formado_id) VALUES (?, ?)`;
 			let [result] = await connection.execute(query, [estudiante_id,curso_formado_id ]);
-			await setCupo(cupos+1,curso_formado_id);
+			await setCupo(cupos-1,curso_formado_id);
 			res.json({
 				id: result.insertId,
 				message: "Estudiante matriculado correctamente"
