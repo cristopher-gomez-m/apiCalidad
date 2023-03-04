@@ -4,6 +4,7 @@ import routerLogin from "./routes/login.routes.js";
 import routerTeacher from "./routes/teacher.routes.js";
 import routerCreatedCourses from "./routes/createdCourses.routes.js";
 import cors from "cors";
+import routerHomework from "./routes/homework.routes.js";
 const app = express();
 
 //Settings
@@ -19,5 +20,5 @@ app.use(router)
 app.use(routerLogin)
 app.use(routerTeacher)
 app.use(routerCreatedCourses)
-
+app.use(routerHomework)
 export default app;

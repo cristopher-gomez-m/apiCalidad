@@ -217,3 +217,5 @@ const setCupo= async(cupo,id)=>{
 	WHERE id = ?`;
  await connection.execute(query, [cupo,id]);
 }
+
+
